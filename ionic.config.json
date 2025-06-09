@@ -1,0 +1,7 @@
+{
+  "name": "MediAlert",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
