@@ -14,7 +14,7 @@ import {
 } from '@ionic/angular/standalone';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { notifications, medical, logOut } from 'ionicons/icons';
+import { notifications, medical, logOut, clipboard, documentOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -37,7 +37,7 @@ import { notifications, medical, logOut } from 'ionicons/icons';
 })
 export class HomePage {
   constructor(private router: Router) {
-    addIcons({ notifications, medical, logOut });
+    addIcons({ notifications, medical, logOut, clipboard, documentOutline });
   }
 
   logout() {

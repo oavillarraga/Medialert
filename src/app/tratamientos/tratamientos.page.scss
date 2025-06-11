@@ -1,7 +1,10 @@
 // Filtros y búsqueda
 .filtros-container {
   padding: 16px;
-  background: var(--ion-color-light);
+  background: var(--ion-background-color);
+  border: 1px solid var(--ion-color-light);
+  border-radius: 12px;
+  margin: 16px;
 
     ion-searchbar {
     margin-bottom: 8px;
@@ -124,8 +127,10 @@
 .progreso-container {
   margin-bottom: 16px;
   padding: 12px;
-  background: var(--ion-color-light);
+  background: var(--ion-background-color);
+  border: 1px solid var(--ion-color-light);
   border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.1);
 
   .progreso-info {
     display: flex;
@@ -225,7 +230,7 @@
   gap: 8px;
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid var(--ion-color-light);
+  border-top: 1px solid var(--ion-color-medium);
 
   ion-button {
     flex: 1;
@@ -389,6 +394,29 @@ ion-header ion-toolbar {
         font-size: 20px;
       }
     }
+  }
+}
+
+// Mejoras para modo oscuro
+@media (prefers-color-scheme: dark) {
+  .filtros-container {
+    background: var(--ion-color-step-50);
+    border-color: var(--ion-color-step-200);
+  }
+
+  .progreso-container {
+    background: var(--ion-color-step-50);
+    border-color: var(--ion-color-step-200);
+  }
+
+  .tratamiento-card {
+    background: var(--ion-color-step-50);
+    border: 1px solid var(--ion-color-step-200);
+  }
+
+  .segment-container {
+    background: var(--ion-color-step-50);
+    border: 1px solid var(--ion-color-step-200);
   }
 }
 
