@@ -18,6 +18,10 @@ export const routes: Routes = [
     loadComponent: () => import('./registro-dosis/registro-dosis.page').then((m) => m.RegistroDosisPage),
   },
   {
+    path: 'medicamentos',
+    loadComponent: () => import('./medicamentos/medicamentos.page').then((m) => m.MedicamentosPage),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
