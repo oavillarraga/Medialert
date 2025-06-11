@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -46,7 +47,8 @@ import {
   playCircle,
   documentText,
   person,
-  medkit
+  medkit,
+  home
 } from 'ionicons/icons';
 
 export interface Medicamento {
@@ -80,6 +82,7 @@ export interface Tratamiento {
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -132,7 +135,7 @@ export class TratamientosPage implements OnInit {
     private alertController: AlertController,
     private actionSheetController: ActionSheetController
   ) {
-    addIcons({
+        addIcons({
       medical,
       time,
       calendar,
@@ -145,7 +148,8 @@ export class TratamientosPage implements OnInit {
       playCircle,
       documentText,
       person,
-      medkit
+      medkit,
+      home
     });
   }
 

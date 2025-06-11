@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -32,7 +33,7 @@ import {
   AlertController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add, time, notifications, trash, create, save, close } from 'ionicons/icons';
+import { add, time, notifications, trash, create, save, close, home } from 'ionicons/icons';
 
 export interface Recordatorio {
   id: string;
@@ -54,6 +55,7 @@ export interface Recordatorio {
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -115,7 +117,7 @@ export class RecordatoriosPage implements OnInit {
   ];
 
   constructor(private alertController: AlertController) {
-    addIcons({ add, time, notifications, trash, create, save, close });
+    addIcons({ add, time, notifications, trash, create, save, close, home });
   }
 
   ngOnInit() {

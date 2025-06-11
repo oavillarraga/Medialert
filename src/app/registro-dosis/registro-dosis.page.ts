@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -52,7 +53,8 @@ import {
   document,
   medkit,
   today,
-  analytics
+  analytics,
+  home
 } from 'ionicons/icons';
 
 export interface RegistroDosis {
@@ -82,6 +84,7 @@ export interface EstadisticasDiarias {
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -135,7 +138,7 @@ export class RegistroDosisPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController
   ) {
-    addIcons({
+        addIcons({
       clipboard,
       time,
       calendar,
@@ -150,7 +153,8 @@ export class RegistroDosisPage implements OnInit {
       document,
       medkit,
       today,
-      analytics
+      analytics,
+      home
     });
   }
 

@@ -12,17 +12,18 @@
     opacity: 0.5;
   }
 
-  h2 {
-    color: var(--ion-color-medium);
+    h2 {
+    color: var(--ion-text-color);
     margin-bottom: 10px;
     font-size: 24px;
     font-weight: 600;
+    opacity: 0.7;
   }
 
   p {
-    color: var(--ion-color-medium);
+    color: var(--ion-text-color);
     font-size: 16px;
-    opacity: 0.7;
+    opacity: 0.6;
   }
 }
 
@@ -52,9 +53,10 @@
 
 .dosis {
   font-size: 14px;
-  color: var(--ion-color-medium);
+  color: var(--ion-text-color);
   margin: 0;
   font-weight: 500;
+  opacity: 0.7;
 }
 
 // Información del recordatorio
@@ -70,15 +72,16 @@
       min-width: 20px;
     }
 
-    .info-label {
+        .info-label {
       font-weight: 600;
-      color: var(--ion-color-dark);
+      color: var(--ion-text-color);
       margin-right: 8px;
       min-width: 80px;
     }
 
     .info-value {
-      color: var(--ion-color-medium-shade);
+      color: var(--ion-text-color);
+      opacity: 0.8;
       flex: 1;
     }
   }
@@ -113,11 +116,11 @@
 .modal-content {
   padding: 20px;
 
-  ion-list {
+    ion-list {
     background: transparent;
 
     ion-item {
-      --background: white;
+      --background: var(--ion-background-color);
       --border-radius: 8px;
       margin-bottom: 16px;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -165,7 +168,8 @@
 
 .help-text {
   font-size: 12px;
-  color: var(--ion-color-medium);
+  color: var(--ion-text-color);
+  opacity: 0.6;
   margin: 0;
   font-style: italic;
 }
@@ -206,7 +210,8 @@
     opacity: 0.6;
 
     .medicamento-nombre {
-      color: var(--ion-color-medium);
+      color: var(--ion-text-color);
+      opacity: 0.5;
     }
   }
 }
@@ -255,5 +260,17 @@ ion-header ion-toolbar {
     display: flex;
     align-items: center;
     font-weight: 700;
+  }
+
+  ion-buttons[slot="start"] {
+    ion-button {
+      --color: white;
+      --background-hover: rgba(255, 255, 255, 0.1);
+      --border-radius: 8px;
+
+      ion-icon {
+        font-size: 20px;
+      }
+    }
   }
 }
