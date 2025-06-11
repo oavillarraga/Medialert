@@ -1,0 +1,488 @@
+// Segmentos
+.segment-container {
+  margin: 16px;
+  --background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  ion-segment-button {
+    --color: var(--ion-color-medium);
+    --color-checked: var(--ion-color-primary);
+    --indicator-color: var(--ion-color-primary);
+
+    ion-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+
+      ion-icon {
+        font-size: 20px;
+      }
+
+      ion-badge {
+        font-size: 10px;
+        min-width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+// Estado vacío
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+
+  ion-icon {
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+
+  h2 {
+    color: var(--ion-color-medium);
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 16px;
+    opacity: 0.7;
+  }
+}
+
+// Vista HOY
+.hoy-container {
+  padding: 16px;
+}
+
+.resumen-card {
+  margin-bottom: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+  .resumen-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ion-color-primary);
+    font-weight: 700;
+  }
+}
+
+.estadisticas-rapidas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+
+  .stat-item {
+    text-align: center;
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+
+      &.text-success { color: var(--ion-color-success); }
+      &.text-warning { color: var(--ion-color-warning); }
+      &.text-danger { color: var(--ion-color-danger); }
+      &.text-primary { color: var(--ion-color-primary); }
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--ion-color-medium);
+      font-weight: 500;
+    }
+  }
+}
+
+.adherencia-bar {
+  height: 8px;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+// Cards de dosis
+.dosis-list {
+  .dosis-card {
+    margin-bottom: 16px;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    &.vencida {
+      border-left: 4px solid var(--ion-color-danger);
+      background: rgba(var(--ion-color-danger-rgb), 0.05);
+    }
+
+    &.completada {
+      opacity: 0.8;
+
+      .medicamento-nombre {
+        color: var(--ion-color-medium);
+      }
+    }
+  }
+}
+
+.medicamento-nombre {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  margin: 0 0 4px 0;
+}
+
+.dosis-info {
+  font-size: 14px;
+  color: var(--ion-color-medium);
+  margin: 0 0 8px 0;
+}
+
+.tiempo-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+
+  .hora-programada {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    color: var(--ion-color-dark);
+
+    ion-icon {
+      font-size: 16px;
+    }
+  }
+}
+
+.tiempo-registro {
+  font-size: 12px;
+  color: var(--ion-color-medium);
+  font-style: italic;
+}
+
+.acciones-row {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ion-color-light);
+}
+
+// Vista HISTORIAL
+.historial-container {
+  padding: 16px;
+}
+
+.fecha-selector {
+  margin-bottom: 20px;
+  border-radius: 12px;
+
+  ion-item {
+    --background: transparent;
+  }
+}
+
+.fecha-titulo {
+  color: var(--ion-color-primary);
+  font-weight: 700;
+  margin: 20px 0 16px 0;
+  text-align: center;
+}
+
+.historial-card {
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ion-color-primary);
+    margin: 0 0 4px 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--ion-color-medium);
+    margin: 0 0 8px 0;
+  }
+}
+
+.registro-detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .hora {
+    font-size: 12px;
+    color: var(--ion-color-dark);
+  }
+}
+
+.notas-preview {
+  margin-top: 8px;
+  padding: 8px;
+  background: var(--ion-color-light);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--ion-color-dark);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+// Vista ESTADÍSTICAS
+.estadisticas-container {
+  padding: 16px;
+}
+
+.adherencia-general-card {
+  margin-bottom: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+  ion-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ion-color-primary);
+    font-weight: 700;
+  }
+}
+
+.adherencia-display {
+  text-align: center;
+
+  .adherencia-numero {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--ion-color-primary);
+    margin-bottom: 16px;
+  }
+
+  .adherencia-descripcion {
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 16px;
+  }
+}
+
+.estadisticas-semanales {
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+  ion-card-title {
+    color: var(--ion-color-primary);
+    font-weight: 700;
+  }
+}
+
+.estadistica-dia {
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .dia-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+
+    .fecha {
+      font-weight: 600;
+      color: var(--ion-color-dark);
+    }
+
+    .adherencia-dia {
+      font-weight: 700;
+      color: var(--ion-color-primary);
+    }
+  }
+
+  .dosis-detalles {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 8px;
+
+    .detalle-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  }
+}
+
+// Modal
+.modal-content {
+  padding: 20px;
+
+  .registro-info {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: var(--ion-color-light);
+    border-radius: 12px;
+
+    h2 {
+      color: var(--ion-color-primary);
+      font-weight: 700;
+      margin: 0 0 8px 0;
+    }
+
+    p {
+      color: var(--ion-color-medium);
+      margin: 4px 0;
+    }
+  }
+
+  ion-item {
+    --background: white;
+    --border-radius: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.modal-buttons {
+  padding: 20px 0;
+
+  ion-button {
+    margin: 0;
+    font-weight: 600;
+    --border-radius: 12px;
+    height: 48px;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .estadisticas-rapidas {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+
+    .stat-item .stat-number {
+      font-size: 20px;
+    }
+  }
+
+  .acciones-row {
+    ion-col {
+      padding: 4px;
+    }
+
+    ion-button {
+      font-size: 12px;
+      height: 40px;
+    }
+  }
+
+  .adherencia-display .adherencia-numero {
+    font-size: 36px;
+  }
+
+  .dosis-detalles {
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+}
+
+// Animaciones
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dosis-card, .historial-card {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+// Estados de texto con colores
+.text-success { color: var(--ion-color-success) !important; }
+.text-warning { color: var(--ion-color-warning) !important; }
+.text-danger { color: var(--ion-color-danger) !important; }
+.text-primary { color: var(--ion-color-primary) !important; }
+
+// Chips mejorados
+ion-chip {
+  font-weight: 600;
+
+  &[size="small"] {
+    font-size: 11px;
+    height: 20px;
+    min-height: 20px;
+  }
+}
+
+// Header personalizado
+ion-header ion-toolbar {
+  --background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
+
+  ion-title {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+  }
+}
+
+// Progress bars con altura personalizada
+ion-progress-bar {
+  --progress-background: rgba(var(--ion-color-light-rgb), 0.5);
+
+  &[color="success"] {
+    --progress-background: rgba(var(--ion-color-success-rgb), 0.2);
+  }
+
+  &[color="warning"] {
+    --progress-background: rgba(var(--ion-color-warning-rgb), 0.2);
+  }
+
+  &[color="danger"] {
+    --progress-background: rgba(var(--ion-color-danger-rgb), 0.2);
+  }
+}
+
+// Botones de acción mejorados
+ion-button {
+  --border-radius: 8px;
+  font-weight: 600;
+
+  &[fill="solid"] {
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &[color="success"] {
+    --background: var(--ion-color-success);
+    --color: white;
+  }
+
+  &[color="danger"] {
+    --background: transparent;
+    --border-color: var(--ion-color-danger);
+    --color: var(--ion-color-danger);
+  }
+}

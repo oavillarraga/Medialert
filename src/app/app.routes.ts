@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('./tratamientos/tratamientos.page').then((m) => m.TratamientosPage),
   },
   {
+    path: 'registro-dosis',
+    loadComponent: () => import('./registro-dosis/registro-dosis.page').then((m) => m.RegistroDosisPage),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

@@ -13,7 +13,7 @@ import {
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { notifications, medical } from 'ionicons/icons';
+import { notifications, medical, clipboard } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +35,6 @@ import { notifications, medical } from 'ionicons/icons';
 })
 export class HomePage {
   constructor() {
-    addIcons({ notifications, medical });
+    addIcons({ notifications, medical, clipboard });
   }
 }
