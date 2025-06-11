@@ -3,6 +3,30 @@
     <img src="assets/medialert_logo.png" class="logo" alt="Logo" />
     <h2 class="titulo">INICIO SESIÓN</h2>
 
+    <!-- Card con credenciales de acceso -->
+    <ion-card class="login-info-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="key" style="margin-right: 8px;"></ion-icon>
+          Credenciales de Acceso
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="credentials-info">
+          <div class="credential-item">
+            <ion-icon name="person" color="primary"></ion-icon>
+            <span class="credential-label">Usuario:</span>
+            <span class="credential-value">admin</span>
+          </div>
+          <div class="credential-item">
+            <ion-icon name="lock-closed" color="primary"></ion-icon>
+            <span class="credential-label">Contraseña:</span>
+            <span class="credential-value">1234</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
     <ion-item lines="none" class="custom-item">
       <ion-icon name="person-circle" slot="start"></ion-icon>
       <ion-input [(ngModel)]="username" placeholder="Usuario"></ion-input>

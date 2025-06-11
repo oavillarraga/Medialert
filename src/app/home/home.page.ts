@@ -9,11 +9,12 @@ import {
   IonCardTitle,
   IonCardContent,
   IonButton,
-  IonIcon
+  IonIcon,
+  IonButtons
 } from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { notifications, medical, clipboard, documentOutline } from 'ionicons/icons';
+import { notifications, medical, logOut } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -30,11 +31,17 @@ import { notifications, medical, clipboard, documentOutline } from 'ionicons/ico
     IonCardContent,
     IonButton,
     IonIcon,
+    IonButtons,
     RouterModule
   ],
 })
 export class HomePage {
-  constructor() {
-    addIcons({ notifications, medical, clipboard, documentOutline });
+  constructor(private router: Router) {
+    addIcons({ notifications, medical, logOut });
+  }
+
+  logout() {
+    // Navegar de vuelta al login
+    this.router.navigate(['/login']);
   }
 }

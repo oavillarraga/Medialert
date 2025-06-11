@@ -4,9 +4,9 @@ import { AlertController } from '@ionic/angular';
 import {
   IonCard,
   IonCardHeader,
-  IonCardTitle, 
+  IonCardTitle,
   IonCardContent,
-  IonInput, 
+  IonInput,
   IonItem,
   IonButton,
   IonIcon,
@@ -16,6 +16,9 @@ import {
   IonToolbar,
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
+import { addIcons } from 'ionicons';
+import { key, person, lockClosed, personCircle } from 'ionicons/icons';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -43,7 +46,9 @@ export class LoginPage {
   username = '';
   password = '';
 
-  constructor(private router: Router, private alertController: AlertController) {}
+  constructor(private router: Router, private alertController: AlertController) {
+    addIcons({ key, person, lockClosed, personCircle });
+  }
 
   async login() {
     // Datos quemados
