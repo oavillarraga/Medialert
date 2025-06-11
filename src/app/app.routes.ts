@@ -22,6 +22,10 @@ export const routes: Routes = [
     loadComponent: () => import('./medicamentos/medicamentos.page').then((m) => m.MedicamentosPage),
   },
   {
+    path: 'informes',
+    loadComponent: () => import('./informes/informes.page').then((m) => m.InformesPage),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

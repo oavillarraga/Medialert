@@ -38,7 +38,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
-  medkit,
+  medical,
   add,
   create,
   trash,
@@ -51,7 +51,7 @@ import {
   warning,
   calendar,
   information,
-  document,
+  documentOutline,
   checkmark,
   ellipsisHorizontal
 } from 'ionicons/icons';
@@ -164,8 +164,8 @@ export class MedicamentosPage implements OnInit {
     private toastController: ToastController,
     private actionSheetController: ActionSheetController
   ) {
-    addIcons({
-      medkit,
+        addIcons({
+      medical,
       add,
       create,
       trash,
@@ -178,7 +178,7 @@ export class MedicamentosPage implements OnInit {
       warning,
       calendar,
       information,
-      document,
+      documentOutline,
       checkmark,
       ellipsisHorizontal
     });

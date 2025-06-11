@@ -47,7 +47,6 @@ import {
   playCircle,
   documentText,
   person,
-  medkit,
   home
 } from 'ionicons/icons';
 
@@ -148,7 +147,6 @@ export class TratamientosPage implements OnInit {
       playCircle,
       documentText,
       person,
-      medkit,
       home
     });
   }

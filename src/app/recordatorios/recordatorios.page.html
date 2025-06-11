@@ -62,7 +62,7 @@
           </div>
 
           <div class="info-row">
-            <ion-icon name="alarm" color="primary"></ion-icon>
+            <ion-icon name="alarmOutline" color="primary"></ion-icon>
             <span class="info-label">Horarios:</span>
             <div class="horarios-container">
               <ion-chip *ngFor="let horario of recordatorio.horarios" color="secondary">
@@ -72,7 +72,7 @@
           </div>
 
           <div class="info-row" *ngIf="recordatorio.notas">
-            <ion-icon name="document-text" color="primary"></ion-icon>
+            <ion-icon name="documentTextOutline" color="primary"></ion-icon>
             <span class="info-label">Notas:</span>
             <span class="info-value">{{ recordatorio.notas }}</span>
           </div>

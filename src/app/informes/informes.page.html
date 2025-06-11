@@ -1,0 +1,260 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <div class="title-container">
+        <ion-icon name="documentOutline" class="title-icon"></ion-icon>
+        Generar Informes
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home" fill="clear">
+        <ion-icon name="home" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Generar Informes</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Vista de tipos de informes -->
+  <div *ngIf="vistaActual === 'tipos'" class="tipos-container">
+    <div class="intro-section">
+      <h2>Informes Médicos Profesionales</h2>
+      <p>Genera reportes detallados en PDF para compartir con profesionales de la salud o para tu archivo personal.</p>
+    </div>
+
+    <div class="tipos-grid">
+      <ion-card
+        *ngFor="let tipo of tiposInformes"
+        class="tipo-card"
+        (click)="seleccionarTipoInforme(tipo)">
+        <ion-card-content>
+          <div class="tipo-header">
+            <ion-icon
+              [name]="tipo.icono"
+              [color]="tipo.color"
+              class="tipo-icon">
+            </ion-icon>
+            <ion-badge [color]="tipo.color" class="tipo-badge">PDF</ion-badge>
+          </div>
+          <h3>{{ tipo.nombre }}</h3>
+          <p>{{ tipo.descripcion }}</p>
+          <div class="tipo-features">
+            <ion-chip size="small" *ngIf="tipo.requiereFechas">
+              <ion-icon name="calendar" size="small"></ion-icon>
+              <ion-label>Fechas</ion-label>
+            </ion-chip>
+            <ion-chip size="small" *ngIf="tipo.requireMedicamentos">
+              <ion-icon name="medical" size="small"></ion-icon>
+              <ion-label>Filtros</ion-label>
+            </ion-chip>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Vista de configuración -->
+  <div *ngIf="vistaActual === 'configuracion'" class="configuracion-container">
+    <div class="config-header">
+      <ion-button fill="clear" (click)="volver()">
+        <ion-icon name="arrowBack" slot="start"></ion-icon>
+        Volver
+      </ion-button>
+      <h2>{{ tipoInformeSeleccionado?.nombre }}</h2>
+      <p>{{ tipoInformeSeleccionado?.descripcion }}</p>
+    </div>
+
+    <div class="config-form">
+      <!-- Rango de fechas -->
+      <ion-card *ngIf="tipoInformeSeleccionado?.requiereFechas">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="calendar" color="primary"></ion-icon>
+            Rango de Fechas
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label position="stacked">Fecha Inicio</ion-label>
+                  <ion-datetime
+                    [(ngModel)]="fechaInicio"
+                    display-format="DD/MM/YYYY"
+                    picker-format="DD/MM/YYYY"
+                    [min]="fechaMinima"
+                    [max]="fechaMaxima">
+                  </ion-datetime>
+                </ion-item>
+              </ion-col>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label position="stacked">Fecha Fin</ion-label>
+                  <ion-datetime
+                    [(ngModel)]="fechaFin"
+                    display-format="DD/MM/YYYY"
+                    picker-format="DD/MM/YYYY"
+                    [min]="fechaInicio"
+                    [max]="fechaMaxima">
+                  </ion-datetime>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Selección de medicamentos -->
+      <ion-card *ngIf="tipoInformeSeleccionado?.requireMedicamentos">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="medical" color="primary"></ion-icon>
+            Medicamentos a Incluir
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="medicamentos-selection">
+                        <div class="selection-actions">
+              <ion-button
+                size="small"
+                fill="outline"
+                (click)="seleccionarTodosMedicamentos()">
+                Seleccionar Todos
+              </ion-button>
+              <ion-button
+                size="small"
+                fill="outline"
+                color="medium"
+                (click)="deseleccionarTodosMedicamentos()">
+                Deseleccionar Todos
+              </ion-button>
+            </div>
+
+            <div class="medicamentos-list">
+              <ion-item *ngFor="let medicamento of medicamentos" lines="none">
+                <ion-checkbox
+                  slot="start"
+                  [checked]="medicamentosSeleccionados.includes(medicamento.id)"
+                  (ionChange)="onMedicamentoSeleccionado(medicamento.id, $event)">
+                </ion-checkbox>
+                <ion-label>
+                  <h3>{{ medicamento.nombre }}</h3>
+                  <p>{{ medicamento.principioActivo }} - {{ medicamento.concentracion }}</p>
+                </ion-label>
+                <ion-badge
+                  slot="end"
+                  [color]="medicamento.activo ? 'success' : 'medium'">
+                  {{ medicamento.activo ? 'Activo' : 'Inactivo' }}
+                </ion-badge>
+              </ion-item>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Opciones adicionales -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="settings" color="primary"></ion-icon>
+            Opciones del Informe
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-checkbox [(ngModel)]="incluirEstadisticas"></ion-checkbox>
+            <ion-label class="ion-margin-start">
+              <h3>Incluir Estadísticas</h3>
+              <p>Agregar análisis estadístico al informe</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-checkbox [(ngModel)]="incluirGraficos"></ion-checkbox>
+            <ion-label class="ion-margin-start">
+              <h3>Incluir Gráficos</h3>
+              <p>Agregar visualizaciones y gráficos</p>
+            </ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Vista previa de información -->
+      <ion-card class="preview-card">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="eye" color="secondary"></ion-icon>
+            Vista Previa
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="preview-info">
+            <div class="preview-item">
+              <span class="preview-label">Tipo de Informe:</span>
+              <span class="preview-value">{{ tipoInformeSeleccionado?.nombre }}</span>
+            </div>
+            <div class="preview-item" *ngIf="tipoInformeSeleccionado?.requiereFechas">
+              <span class="preview-label">Periodo:</span>
+              <span class="preview-value">
+                {{ fechaInicio | date:'dd/MM/yyyy' }} - {{ fechaFin | date:'dd/MM/yyyy' }}
+              </span>
+            </div>
+            <div class="preview-item" *ngIf="tipoInformeSeleccionado?.requireMedicamentos">
+              <span class="preview-label">Medicamentos:</span>
+              <span class="preview-value">
+                {{ medicamentosSeleccionados.length === 0 ? 'Todos' : medicamentosSeleccionados.length + ' seleccionados' }}
+              </span>
+            </div>
+            <div class="preview-item">
+              <span class="preview-label">Incluye:</span>
+              <span class="preview-value">
+                <ion-chip size="small" color="success" *ngIf="incluirEstadisticas">
+                  Estadísticas
+                </ion-chip>
+                <ion-chip size="small" color="success" *ngIf="incluirGraficos">
+                  Gráficos
+                </ion-chip>
+              </span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Botón de generación -->
+    <div class="generate-section">
+      <ion-button
+        expand="block"
+        size="large"
+        color="primary"
+        (click)="generarInforme()"
+        [disabled]="generandoInforme">
+        <ion-icon name="download" slot="start" *ngIf="!generandoInforme"></ion-icon>
+        <ion-spinner name="crescent" slot="start" *ngIf="generandoInforme"></ion-spinner>
+        {{ generandoInforme ? 'Generando...' : 'Generar y Descargar PDF' }}
+      </ion-button>
+
+      <p class="generate-note">
+        El informe se descargará automáticamente una vez generado.
+      </p>
+    </div>
+  </div>
+
+  <!-- Estado sin datos -->
+  <div *ngIf="vistaActual === 'tipos' && medicamentos.length === 0" class="empty-state">
+    <ion-icon name="documentOutline" class="empty-icon"></ion-icon>
+    <h3>No hay datos disponibles</h3>
+    <p>Agrega medicamentos y registra dosis para generar informes completos</p>
+    <ion-button routerLink="/medicamentos" color="primary">
+              <ion-icon name="medical" slot="start"></ion-icon>
+      Gestionar Medicamentos
+    </ion-button>
+  </div>
+</ion-content>

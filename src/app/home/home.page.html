@@ -22,13 +22,13 @@
         <ion-card-title>Módulos Disponibles</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <ion-button expand="block" routerLink="/medicamentos" color="success" class="module-button">
-          <ion-icon name="medkit" slot="start"></ion-icon>
-          Gestionar Medicamentos
-        </ion-button>
         <ion-button expand="block" routerLink="/recordatorios" color="primary" class="module-button">
           <ion-icon name="notifications" slot="start"></ion-icon>
           Configurar Recordatorios
+        </ion-button>
+        <ion-button expand="block" routerLink="/medicamentos" color="success" class="module-button">
+          <ion-icon name="medical" slot="start"></ion-icon>
+          Gestionar Medicamentos
         </ion-button>
         <ion-button expand="block" routerLink="/tratamientos" color="secondary" class="module-button">
           <ion-icon name="medical" slot="start"></ion-icon>
@@ -37,6 +37,10 @@
         <ion-button expand="block" routerLink="/registro-dosis" color="tertiary" class="module-button">
           <ion-icon name="clipboard" slot="start"></ion-icon>
           Registro de Dosis
+        </ion-button>
+        <ion-button expand="block" routerLink="/informes" color="warning" class="module-button">
+          <ion-icon name="documentOutline" slot="start"></ion-icon>
+          Generar Informes
         </ion-button>
       </ion-card-content>
     </ion-card>

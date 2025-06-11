@@ -50,8 +50,8 @@ import {
   checkmark,
   close,
   hourglass,
-  document,
-  medkit,
+  documentOutline,
+  medical,
   today,
   analytics,
   home
@@ -150,8 +150,8 @@ export class RegistroDosisPage implements OnInit {
       checkmark,
       close,
       hourglass,
-      document,
-      medkit,
+      documentOutline,
+      medical,
       today,
       analytics,
       home

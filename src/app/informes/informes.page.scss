@@ -1,0 +1,435 @@
+ion-content {
+  --background: var(--ion-background-color);
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-icon {
+  font-size: 1.2em;
+  color: var(--ion-color-primary);
+}
+
+// Introducción
+.intro-section {
+  padding: 24px 16px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-primary-shade) 100%);
+  color: white;
+  margin-bottom: 16px;
+
+  h2 {
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: white;
+  }
+
+  p {
+    opacity: 0.9;
+    line-height: 1.4;
+    margin: 0;
+  }
+}
+
+// Grid de tipos de informes
+.tipos-container {
+  padding-bottom: 16px;
+}
+
+.tipos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.tipo-card {
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: var(--ion-background-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  ion-card-content {
+    padding: 20px;
+  }
+
+  .tipo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .tipo-icon {
+      font-size: 2.5em;
+    }
+
+    .tipo-badge {
+      font-size: 0.7em;
+      height: 20px;
+    }
+  }
+
+  h3 {
+    color: var(--ion-text-color);
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--ion-text-color);
+    opacity: 0.7;
+    line-height: 1.4;
+    margin-bottom: 16px;
+  }
+
+  .tipo-features {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    ion-chip {
+      font-size: 0.75em;
+      height: 24px;
+    }
+  }
+}
+
+// Configuración
+.configuracion-container {
+  padding: 0 16px 100px;
+}
+
+.config-header {
+  padding: 16px 0 24px;
+
+  ion-button {
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    color: var(--ion-text-color);
+    font-size: 1.4em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--ion-text-color);
+    opacity: 0.7;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+.config-form {
+  ion-card {
+    margin-bottom: 16px;
+    border-radius: 12px;
+    background: var(--ion-background-color);
+
+    ion-card-header {
+      padding: 16px 16px 8px;
+
+      ion-card-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.1em;
+        color: var(--ion-text-color);
+
+        ion-icon {
+          font-size: 1.2em;
+        }
+      }
+    }
+
+    ion-card-content {
+      padding: 8px 16px 16px;
+    }
+
+    ion-item {
+      --background: transparent;
+      --color: var(--ion-text-color);
+      --border-color: var(--ion-color-light);
+      margin-bottom: 8px;
+
+      ion-label {
+        color: var(--ion-text-color);
+      }
+
+      ion-datetime {
+        --color: var(--ion-text-color);
+      }
+    }
+  }
+}
+
+// Selección de medicamentos
+.medicamentos-selection {
+  .selection-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    justify-content: flex-end;
+
+    ion-button {
+      height: 32px;
+    }
+  }
+
+  .medicamentos-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--ion-color-light);
+    border-radius: 8px;
+
+    ion-item {
+      --background: var(--ion-background-color);
+      --color: var(--ion-text-color);
+      --border-color: var(--ion-color-light);
+
+      ion-checkbox {
+        margin-right: 12px;
+      }
+
+      ion-label {
+        h3 {
+          color: var(--ion-text-color);
+          font-size: 1em;
+          font-weight: 500;
+          margin-bottom: 4px;
+        }
+
+        p {
+          color: var(--ion-text-color);
+          opacity: 0.6;
+          font-size: 0.9em;
+          margin: 0;
+        }
+      }
+
+      ion-badge {
+        font-size: 0.75em;
+      }
+    }
+  }
+}
+
+// Vista previa
+.preview-card {
+  border: 2px solid var(--ion-color-secondary);
+  background: rgba(var(--ion-color-secondary-rgb), 0.05);
+
+  .preview-info {
+    .preview-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--ion-color-light);
+
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      .preview-label {
+        font-weight: 500;
+        color: var(--ion-text-color);
+        opacity: 0.8;
+      }
+
+      .preview-value {
+        color: var(--ion-text-color);
+        text-align: right;
+        flex: 1;
+        margin-left: 16px;
+
+        ion-chip {
+          margin: 0 2px;
+        }
+      }
+    }
+  }
+}
+
+// Sección de generación
+.generate-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--ion-background-color);
+  padding: 16px;
+  border-top: 1px solid var(--ion-color-light);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+
+  ion-button {
+    --border-radius: 12px;
+    height: 48px;
+    font-weight: 600;
+    margin-bottom: 8px;
+
+    ion-spinner {
+      --color: white;
+    }
+  }
+
+  .generate-note {
+    text-align: center;
+    color: var(--ion-text-color);
+    opacity: 0.6;
+    font-size: 0.85em;
+    margin: 0;
+  }
+}
+
+// Estado vacío
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+
+  .empty-icon {
+    font-size: 4em;
+    color: var(--ion-color-medium);
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    color: var(--ion-text-color);
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    margin-bottom: 24px;
+    line-height: 1.4;
+  }
+
+  ion-button {
+    --border-radius: 12px;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .tipos-grid {
+    grid-template-columns: 1fr;
+    padding: 0 8px;
+  }
+
+  .tipo-card {
+    ion-card-content {
+      padding: 16px;
+    }
+
+    .tipo-header .tipo-icon {
+      font-size: 2em;
+    }
+  }
+
+  .configuracion-container {
+    padding: 0 8px 100px;
+  }
+
+  .selection-actions {
+    flex-direction: column;
+    align-items: stretch;
+
+    ion-button {
+      margin-bottom: 4px;
+    }
+  }
+
+  .preview-item {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 4px;
+
+    .preview-value {
+      text-align: left !important;
+      margin-left: 0 !important;
+    }
+  }
+}
+
+// Botón home en toolbar
+ion-toolbar ion-buttons ion-button {
+  --color: white;
+
+  &:hover {
+    --color: var(--ion-color-primary-tint);
+  }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .tipo-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .generate-section {
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .medicamentos-list {
+    border-color: var(--ion-color-dark);
+  }
+}
+
+// Animaciones
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tipo-card {
+  animation: slideIn 0.3s ease-out;
+}
+
+.config-form ion-card {
+  animation: slideIn 0.4s ease-out;
+}
+
+// Scrollbar personalizado para listas
+.medicamentos-list {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--ion-color-light);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--ion-color-medium);
+    border-radius: 3px;
+
+    &:hover {
+      background: var(--ion-color-primary);
+    }
+  }
+}

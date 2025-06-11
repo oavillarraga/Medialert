@@ -33,7 +33,7 @@ import {
   AlertController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add, time, notifications, trash, create, save, close, home } from 'ionicons/icons';
+import { add, time, notifications, trash, create, save, close, home, alarmOutline, documentTextOutline } from 'ionicons/icons';
 
 export interface Recordatorio {
   id: string;
@@ -117,7 +117,7 @@ export class RecordatoriosPage implements OnInit {
   ];
 
   constructor(private alertController: AlertController) {
-    addIcons({ add, time, notifications, trash, create, save, close, home });
+    addIcons({ add, time, notifications, trash, create, save, close, home, alarmOutline, documentTextOutline });
   }
 
   ngOnInit() {

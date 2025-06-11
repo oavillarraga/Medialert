@@ -87,7 +87,7 @@
 
     <!-- Lista de dosis de hoy -->
     <div *ngIf="registrosHoy.length === 0" class="empty-state">
-      <ion-icon name="medkit" size="large" color="medium"></ion-icon>
+                  <ion-icon name="medical" size="large" color="medium"></ion-icon>
       <h2>No hay dosis programadas</h2>
       <p>No tienes medicamentos programados para hoy. Revisa tus recordatorios.</p>
     </div>
@@ -159,7 +159,7 @@
                   fill="clear"
                   size="small"
                   (click)="agregarNotas(registro)">
-                  <ion-icon name="document" slot="start"></ion-icon>
+                  <ion-icon name="documentOutline" slot="start"></ion-icon>
                   {{ registro.notas ? 'Ver/Editar Notas' : 'Agregar Notas' }}
                 </ion-button>
               </ion-col>
@@ -224,7 +224,7 @@
                   </span>
                 </div>
                 <div *ngIf="registro.notas" class="notas-preview">
-                  <ion-icon name="document" color="medium"></ion-icon>
+                  <ion-icon name="documentOutline" color="medium"></ion-icon>
                   {{ registro.notas }}
                 </div>
               </ion-col>
