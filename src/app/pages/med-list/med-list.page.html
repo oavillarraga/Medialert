@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- Centrar título para que no choque con el boton -->
+    <ion-title class="ion-text-center">Mis Medicamentos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openDetail('new')">+</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let m of meds" (click)="openDetail(m.id)">
+      <ion-label>{{ m.name }} — {{ m.time }}</ion-label>
+    </ion-item>
+    <div *ngIf="meds.length === 0" class="ion-text-center ion-padding">
+      No hay medicamentos aún
+    </div>
+  </ion-list>
+</ion-content>
