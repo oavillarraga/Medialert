@@ -1,0 +1,322 @@
+ion-content {
+  --background: var(--ion-background-color);
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-icon {
+  font-size: 1.2em;
+  color: var(--ion-color-primary);
+}
+
+// Estadísticas rápidas
+.stats-container {
+  padding: 16px;
+  background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-primary-shade) 100%);
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  &.warning {
+    background: rgba(var(--ion-color-warning-rgb), 0.2);
+    border-color: rgba(var(--ion-color-warning-rgb), 0.3);
+  }
+
+  &.danger {
+    background: rgba(var(--ion-color-danger-rgb), 0.2);
+    border-color: rgba(var(--ion-color-danger-rgb), 0.3);
+  }
+
+  .stat-number {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// Búsqueda y filtros
+.search-container {
+  padding: 0 16px 16px;
+
+  ion-searchbar {
+    --background: var(--ion-background-color);
+    --color: var(--ion-text-color);
+    margin-bottom: 8px;
+  }
+
+  ion-select {
+    --background: var(--ion-background-color);
+    --color: var(--ion-text-color);
+    border: 1px solid var(--ion-color-light);
+    border-radius: 8px;
+    padding: 8px;
+  }
+}
+
+// Contenedor de medicamentos
+.medicamentos-container {
+  padding: 0 16px 100px;
+}
+
+// Estado vacío
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+
+  .empty-icon {
+    font-size: 4em;
+    color: var(--ion-color-medium);
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    color: var(--ion-text-color);
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+// Tarjetas de medicamentos
+.medicamento-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: var(--ion-background-color);
+
+  ion-card-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--ion-color-light);
+  }
+
+  ion-card-content {
+    padding: 16px;
+  }
+}
+
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.medicamento-info {
+  flex: 1;
+
+  ion-card-title {
+    color: var(--ion-text-color);
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  ion-note {
+    color: var(--ion-text-color);
+    opacity: 0.7;
+    font-size: 0.9em;
+  }
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.categoria-chip {
+  font-size: 0.75em;
+  height: 24px;
+}
+
+// Detalles del medicamento
+.medicamento-details {
+  .detail-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 8px;
+
+    .detail-icon {
+      font-size: 1em;
+      color: var(--ion-color-primary);
+      min-width: 16px;
+    }
+
+    .detail-label {
+      font-weight: 500;
+      color: var(--ion-text-color);
+      opacity: 0.8;
+      min-width: 80px;
+    }
+
+    .detail-value {
+      flex: 1;
+      color: var(--ion-text-color);
+
+      &.indicaciones {
+        line-height: 1.4;
+      }
+
+      &.vencido {
+        color: var(--ion-color-danger);
+        font-weight: 500;
+      }
+
+      &.por-vencer {
+        color: var(--ion-color-warning);
+        font-weight: 500;
+      }
+
+      .warning-icon {
+        margin-left: 4px;
+        font-size: 0.9em;
+      }
+    }
+  }
+
+  .status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--ion-color-light);
+
+    .status-badge {
+      font-size: 0.8em;
+    }
+
+    .fecha-modificacion {
+      color: var(--ion-text-color);
+      opacity: 0.6;
+      font-size: 0.8em;
+    }
+  }
+}
+
+// Botón flotante
+ion-fab-button {
+  --border-radius: 16px;
+  --box-shadow: 0 8px 24px rgba(var(--ion-color-primary-rgb), 0.3);
+}
+
+// Modal styles
+ion-modal {
+  --height: auto;
+  --border-radius: 16px 16px 0 0;
+
+  ion-content {
+    --background: var(--ion-background-color);
+  }
+}
+
+// Formulario
+.form-section {
+  margin-bottom: 24px;
+
+  h3 {
+    color: var(--ion-color-primary);
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-left: 16px;
+    border-left: 3px solid var(--ion-color-primary);
+  }
+
+  ion-item {
+    --background: var(--ion-background-color);
+    --color: var(--ion-text-color);
+    --border-color: var(--ion-color-light);
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--ion-color-light);
+
+    ion-label {
+      color: var(--ion-text-color);
+      opacity: 0.8;
+      font-weight: 500;
+    }
+
+    ion-input, ion-textarea, ion-select, ion-datetime {
+      --color: var(--ion-text-color);
+      --placeholder-color: var(--ion-color-medium);
+    }
+  }
+}
+
+.form-actions {
+  margin-top: 24px;
+  padding-top: 16px;
+
+  ion-button {
+    --border-radius: 12px;
+    margin: 8px 0;
+    height: 48px;
+    font-weight: 600;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .card-header-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card-actions {
+    align-self: flex-end;
+  }
+
+  .medicamento-details .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+
+    .detail-label {
+      min-width: auto;
+    }
+  }
+}
+
+// Botón home en toolbar
+ion-toolbar ion-buttons ion-button {
+  --color: white;
+
+  &:hover {
+    --color: var(--ion-color-primary-tint);
+  }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .medicamento-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .form-section ion-item {
+    --border-color: var(--ion-color-dark);
+  }
+}

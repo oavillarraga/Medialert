@@ -1,0 +1,21 @@
+<ion-content [fullscreen]="true" class="login-background">
+  <div class="login-container">
+    <img src="assets/medialert_logo.png" class="logo" alt="Logo" />
+    <h2 class="titulo">INICIO SESIÓN</h2>
+
+    <ion-item lines="none" class="custom-item">
+      <ion-icon name="person-circle" slot="start"></ion-icon>
+      <ion-input [(ngModel)]="username" placeholder="Usuario"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none" class="custom-item">
+      <ion-icon name="lock-closed" slot="start"></ion-icon>
+      <ion-input [(ngModel)]="password" type="password" placeholder="Contraseña"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" class="login-button" (click)="login()">
+      INGRESAR
+    </ion-button>
+  </div>
+</ion-content>
+

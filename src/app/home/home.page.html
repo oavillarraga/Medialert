@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Blank
+      MediAlert
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,40 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">MediAlert</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <h1>¡Bienvenido a MediAlert!</h1>
+    <p>Tu aplicación personal para recordatorios de medicamentos</p>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Módulos Disponibles</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button expand="block" routerLink="/recordatorios" color="primary" class="module-button">
+          <ion-icon name="notifications" slot="start"></ion-icon>
+          Configurar Recordatorios
+        </ion-button>
+        <ion-button expand="block" routerLink="/medicamentos" color="success" class="module-button">
+          <ion-icon name="medical" slot="start"></ion-icon>
+          Gestionar Medicamentos
+        </ion-button>
+        <ion-button expand="block" routerLink="/tratamientos" color="secondary" class="module-button">
+          <ion-icon name="medical" slot="start"></ion-icon>
+          Ver Tratamientos
+        </ion-button>
+        <ion-button expand="block" routerLink="/registro-dosis" color="tertiary" class="module-button">
+          <ion-icon name="clipboard" slot="start"></ion-icon>
+          Registro de Dosis
+        </ion-button>
+        <ion-button expand="block" routerLink="/informes" color="warning" class="module-button">
+          <ion-icon name="documentOutline" slot="start"></ion-icon>
+          Generar Informes
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

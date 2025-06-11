@@ -1,0 +1,246 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">
+        <ion-icon name="home"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <ion-icon name="notifications" style="margin-right: 8px;"></ion-icon>
+      Recordatorios
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Recordatorios</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Lista de recordatorios -->
+  <div *ngIf="recordatorios.length === 0" class="empty-state">
+    <ion-icon name="notifications" size="large" color="medium"></ion-icon>
+    <h2>No hay recordatorios</h2>
+    <p>Comienza agregando tu primer recordatorio de medicamento</p>
+  </div>
+
+  <ion-list *ngIf="recordatorios.length > 0">
+    <ion-card *ngFor="let recordatorio of recordatorios" class="recordatorio-card">
+      <ion-card-header>
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col>
+              <ion-card-title class="medicamento-nombre">
+                {{ recordatorio.nombreMedicamento }}
+              </ion-card-title>
+              <p class="dosis">{{ recordatorio.dosis }}</p>
+            </ion-col>
+            <ion-col size="auto">
+              <ion-checkbox
+                [(ngModel)]="recordatorio.activo"
+                (ionChange)="toggleRecordatorio(recordatorio)">
+              </ion-checkbox>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="recordatorio-info">
+          <div class="info-row">
+            <ion-icon name="time" color="primary"></ion-icon>
+            <span class="info-label">Frecuencia:</span>
+            <span class="info-value">{{ getFrecuenciaLabel(recordatorio.frecuencia) }}</span>
+          </div>
+
+          <div class="info-row" *ngIf="recordatorio.diasSemana && recordatorio.diasSemana.length > 0">
+            <ion-icon name="calendar" color="primary"></ion-icon>
+            <span class="info-label">Días:</span>
+            <span class="info-value">{{ getDiasSemanaText(recordatorio.diasSemana) }}</span>
+          </div>
+
+          <div class="info-row">
+            <ion-icon name="alarmOutline" color="primary"></ion-icon>
+            <span class="info-label">Horarios:</span>
+            <div class="horarios-container">
+              <ion-chip *ngFor="let horario of recordatorio.horarios" color="secondary">
+                {{ horario }}
+              </ion-chip>
+            </div>
+          </div>
+
+          <div class="info-row" *ngIf="recordatorio.notas">
+            <ion-icon name="documentTextOutline" color="primary"></ion-icon>
+            <span class="info-label">Notas:</span>
+            <span class="info-value">{{ recordatorio.notas }}</span>
+          </div>
+
+          <div class="acciones">
+            <ion-button
+              fill="outline"
+              size="small"
+              (click)="abrirModal(recordatorio)"
+              color="primary">
+              <ion-icon name="create" slot="start"></ion-icon>
+              Editar
+            </ion-button>
+            <ion-button
+              fill="outline"
+              size="small"
+              (click)="eliminarRecordatorio(recordatorio)"
+              color="danger">
+              <ion-icon name="trash" slot="start"></ion-icon>
+              Eliminar
+            </ion-button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <!-- Botón flotante para agregar -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="abrirModal()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Modal para crear/editar recordatorio -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>{{ editando ? 'Editar' : 'Nuevo' }} Recordatorio</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="modal-content">
+        <ion-list>
+          <!-- Nombre del medicamento -->
+          <ion-item>
+            <ion-label position="stacked">Nombre del Medicamento *</ion-label>
+            <ion-input
+              [(ngModel)]="nuevoRecordatorio.nombreMedicamento"
+              placeholder="Ej: Aspirina, Ibuprofeno"
+              required>
+            </ion-input>
+          </ion-item>
+
+          <!-- Dosis -->
+          <ion-item>
+            <ion-label position="stacked">Dosis *</ion-label>
+            <ion-input
+              [(ngModel)]="nuevoRecordatorio.dosis"
+              placeholder="Ej: 100mg, 1 tableta"
+              required>
+            </ion-input>
+          </ion-item>
+
+          <!-- Frecuencia -->
+          <ion-item>
+            <ion-label position="stacked">Frecuencia *</ion-label>
+            <ion-select
+              [(ngModel)]="nuevoRecordatorio.frecuencia"
+              (ionChange)="onFrecuenciaChange()">
+              <ion-select-option value="diaria">Diaria</ion-select-option>
+              <ion-select-option value="semanal">Semanal</ion-select-option>
+              <ion-select-option value="personalizada">Personalizada</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Días de la semana (solo para frecuencia semanal) -->
+          <ion-item *ngIf="nuevoRecordatorio.frecuencia === 'semanal'">
+            <ion-label position="stacked">Días de la Semana *</ion-label>
+            <ion-select
+              [(ngModel)]="nuevoRecordatorio.diasSemana"
+              multiple="true">
+              <ion-select-option
+                *ngFor="let dia of diasSemanaOptions"
+                [value]="dia.value">
+                {{ dia.label }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Horarios -->
+          <ion-item>
+            <ion-label position="stacked">Horarios *</ion-label>
+            <ion-grid>
+              <ion-row class="ion-align-items-center">
+                <ion-col>
+                  <ion-input
+                    type="time"
+                    [(ngModel)]="nuevoHorario"
+                    placeholder="Selecciona una hora">
+                  </ion-input>
+                </ion-col>
+                <ion-col size="auto">
+                  <ion-button
+                    (click)="agregarHorario()"
+                    fill="outline"
+                    size="small"
+                    [disabled]="!nuevoHorario">
+                    <ion-icon name="add"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+
+          <!-- Lista de horarios agregados -->
+          <ion-item *ngIf="nuevoRecordatorio.horarios && nuevoRecordatorio.horarios.length > 0">
+            <ion-label>
+              <div class="horarios-agregados">
+                <ion-chip
+                  *ngFor="let horario of nuevoRecordatorio.horarios"
+                  color="primary"
+                  (click)="eliminarHorario(horario)">
+                  {{ horario }}
+                  <ion-icon name="close-circle" color="light"></ion-icon>
+                </ion-chip>
+              </div>
+              <p class="help-text">Toca un horario para eliminarlo</p>
+            </ion-label>
+          </ion-item>
+
+          <!-- Fecha de inicio -->
+          <ion-item>
+            <ion-label position="stacked">Fecha de Inicio</ion-label>
+            <ion-datetime
+              [(ngModel)]="nuevoRecordatorio.fechaInicio"
+              presentation="date"
+              display-format="DD/MM/YYYY">
+            </ion-datetime>
+          </ion-item>
+
+          <!-- Notas -->
+          <ion-item>
+            <ion-label position="stacked">Notas (Opcional)</ion-label>
+            <ion-input
+              [(ngModel)]="nuevoRecordatorio.notas"
+              placeholder="Ej: Tomar con comida">
+            </ion-input>
+          </ion-item>
+        </ion-list>
+
+        <!-- Botones de acción -->
+        <div class="modal-buttons">
+          <ion-button
+            expand="block"
+            (click)="guardarRecordatorio()"
+            color="primary">
+            <ion-icon name="save" slot="start"></ion-icon>
+            {{ editando ? 'Actualizar' : 'Guardar' }} Recordatorio
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

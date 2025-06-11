@@ -1,0 +1,400 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <div class="title-container">
+        <ion-icon name="medical" class="title-icon"></ion-icon>
+        Medicamentos
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home" fill="clear">
+        <ion-icon name="home" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Medicamentos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Estadísticas rápidas -->
+  <div class="stats-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <div class="stat-card">
+            <div class="stat-number">{{ getMedicamentosActivos() }}</div>
+            <div class="stat-label">Activos</div>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="stat-card warning" *ngIf="getMedicamentosPorVencer() > 0">
+            <div class="stat-number">{{ getMedicamentosPorVencer() }}</div>
+            <div class="stat-label">Por vencer</div>
+          </div>
+          <div class="stat-card" *ngIf="getMedicamentosPorVencer() === 0">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Por vencer</div>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="stat-card danger" *ngIf="getMedicamentosVencidos() > 0">
+            <div class="stat-number">{{ getMedicamentosVencidos() }}</div>
+            <div class="stat-label">Vencidos</div>
+          </div>
+          <div class="stat-card" *ngIf="getMedicamentosVencidos() === 0">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Vencidos</div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Barra de búsqueda y filtros -->
+  <div class="search-container">
+    <ion-searchbar
+      [(ngModel)]="busqueda"
+      (ionInput)="onBusquedaChanged()"
+      placeholder="Buscar medicamentos..."
+      show-clear-button="focus">
+    </ion-searchbar>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-select
+            [(ngModel)]="filtroCategoria"
+            (selectionChange)="onFiltroChanged()"
+            placeholder="Categoría"
+            interface="popover">
+            <ion-select-option
+              *ngFor="let categoria of categorias"
+              [value]="categoria.value">
+              {{ categoria.label }}
+            </ion-select-option>
+          </ion-select>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select
+            [(ngModel)]="filtroEstado"
+            (selectionChange)="onFiltroChanged()"
+            placeholder="Estado"
+            interface="popover">
+            <ion-select-option value="todos">Todos</ion-select-option>
+            <ion-select-option value="activos">Activos</ion-select-option>
+            <ion-select-option value="inactivos">Inactivos</ion-select-option>
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Lista de medicamentos -->
+  <div class="medicamentos-container">
+    <div *ngIf="medicamentosFiltrados.length === 0" class="empty-state">
+      <ion-icon name="medical" class="empty-icon"></ion-icon>
+      <h3>No se encontraron medicamentos</h3>
+      <p>Agrega tu primer medicamento o ajusta los filtros de búsqueda</p>
+    </div>
+
+    <ion-card *ngFor="let medicamento of medicamentosFiltrados" class="medicamento-card">
+      <ion-card-header>
+        <div class="card-header-row">
+          <div class="medicamento-info">
+            <ion-card-title>{{ medicamento.nombre }}</ion-card-title>
+            <ion-note>{{ medicamento.principioActivo }} - {{ medicamento.concentracion }}</ion-note>
+          </div>
+          <div class="card-actions">
+            <ion-chip
+              [color]="getCategoriaColor(medicamento.categoria)"
+              class="categoria-chip">
+              {{ getCategoriaTexto(medicamento.categoria) }}
+            </ion-chip>
+            <ion-button
+              fill="clear"
+              size="small"
+              (click)="mostrarAcciones(medicamento)">
+              <ion-icon name="ellipsisHorizontal" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="medicamento-details">
+          <div class="detail-row">
+            <ion-icon name="documentOutline" class="detail-icon"></ion-icon>
+            <span class="detail-label">Forma:</span>
+            <span class="detail-value">{{ medicamento.formaFarmaceutica }}</span>
+          </div>
+
+          <div class="detail-row">
+            <ion-icon name="information" class="detail-icon"></ion-icon>
+            <span class="detail-label">Fabricante:</span>
+            <span class="detail-value">{{ medicamento.fabricante }}</span>
+          </div>
+
+          <div class="detail-row">
+            <ion-icon name="calendar" class="detail-icon"></ion-icon>
+            <span class="detail-label">Vence:</span>
+            <span
+              class="detail-value"
+              [ngClass]="{
+                'vencido': estaVencido(medicamento.fechaVencimiento),
+                'por-vencer': !estaVencido(medicamento.fechaVencimiento) && diasParaVencer(medicamento.fechaVencimiento) <= 30
+              }">
+              {{ formatearFecha(medicamento.fechaVencimiento) }}
+              <ion-icon
+                name="warning"
+                *ngIf="estaVencido(medicamento.fechaVencimiento) || diasParaVencer(medicamento.fechaVencimiento) <= 30"
+                class="warning-icon">
+              </ion-icon>
+            </span>
+          </div>
+
+          <div class="detail-row" *ngIf="medicamento.dosisRecomendada">
+            <ion-icon name="medical" class="detail-icon"></ion-icon>
+            <span class="detail-label">Dosis:</span>
+            <span class="detail-value">{{ medicamento.dosisRecomendada }}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Indicaciones:</span>
+            <span class="detail-value indicaciones">{{ medicamento.indicaciones }}</span>
+          </div>
+
+          <div class="status-row">
+            <ion-badge
+              [color]="medicamento.activo ? 'success' : 'medium'"
+              class="status-badge">
+              {{ medicamento.activo ? 'Activo' : 'Inactivo' }}
+            </ion-badge>
+            <ion-note class="fecha-modificacion">
+              Actualizado: {{ formatearFecha(medicamento.fechaModificacion) }}
+            </ion-note>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Botón flotante para agregar -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="abrirModal()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Modal para agregar/editar medicamento -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ editando ? 'Editar' : 'Agregar' }} Medicamento</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <form>
+          <!-- Información básica -->
+          <div class="form-section">
+            <h3>Información Básica</h3>
+
+            <ion-item>
+              <ion-label position="stacked">Nombre del Medicamento *</ion-label>
+              <ion-input
+                [(ngModel)]="nuevoMedicamento.nombre"
+                name="nombre"
+                placeholder="Ej: Ibuprofeno"
+                required>
+              </ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Principio Activo *</ion-label>
+              <ion-input
+                [(ngModel)]="nuevoMedicamento.principioActivo"
+                name="principioActivo"
+                placeholder="Ej: Ibuprofeno"
+                required>
+              </ion-input>
+            </ion-item>
+
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6">
+                  <ion-item>
+                    <ion-label position="stacked">Concentración *</ion-label>
+                    <ion-input
+                      [(ngModel)]="nuevoMedicamento.concentracion"
+                      name="concentracion"
+                      placeholder="Ej: 400mg"
+                      required>
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-item>
+                    <ion-label position="stacked">Forma Farmacéutica</ion-label>
+                    <ion-select
+                      [(ngModel)]="nuevoMedicamento.formaFarmaceutica"
+                      name="formaFarmaceutica"
+                      placeholder="Seleccionar">
+                      <ion-select-option
+                        *ngFor="let forma of formasFarmaceuticas"
+                        [value]="forma">
+                        {{ forma }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <ion-item>
+              <ion-label position="stacked">Fabricante *</ion-label>
+              <ion-input
+                [(ngModel)]="nuevoMedicamento.fabricante"
+                name="fabricante"
+                placeholder="Ej: Laboratorios XYZ"
+                required>
+              </ion-input>
+            </ion-item>
+
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6">
+                  <ion-item>
+                    <ion-label position="stacked">Lote</ion-label>
+                    <ion-input
+                      [(ngModel)]="nuevoMedicamento.lote"
+                      name="lote"
+                      placeholder="Ej: ABC123">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-item>
+                    <ion-label position="stacked">Categoría</ion-label>
+                    <ion-select
+                      [(ngModel)]="nuevoMedicamento.categoria"
+                      name="categoria">
+                      <ion-select-option
+                        *ngFor="let categoria of categorias.slice(1)"
+                        [value]="categoria.value">
+                        {{ categoria.label }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <ion-item>
+              <ion-label position="stacked">Fecha de Vencimiento</ion-label>
+              <ion-datetime
+                [(ngModel)]="nuevoMedicamento.fechaVencimiento"
+                name="fechaVencimiento"
+                display-format="DD/MM/YYYY"
+                picker-format="DD/MM/YYYY"
+                [min]="fechaMinima">
+              </ion-datetime>
+            </ion-item>
+          </div>
+
+          <!-- Información clínica -->
+          <div class="form-section">
+            <h3>Información Clínica</h3>
+
+            <ion-item>
+              <ion-label position="stacked">Indicaciones</ion-label>
+              <ion-textarea
+                [(ngModel)]="nuevoMedicamento.indicaciones"
+                name="indicaciones"
+                placeholder="¿Para qué se usa este medicamento?"
+                rows="3"
+                auto-grow="true">
+              </ion-textarea>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Dosis Recomendada</ion-label>
+              <ion-input
+                [(ngModel)]="nuevoMedicamento.dosisRecomendada"
+                name="dosisRecomendada"
+                placeholder="Ej: 1 tableta cada 8 horas">
+              </ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Contraindicaciones</ion-label>
+              <ion-textarea
+                [(ngModel)]="nuevoMedicamento.contraindicaciones"
+                name="contraindicaciones"
+                placeholder="¿Cuándo no se debe usar?"
+                rows="2"
+                auto-grow="true">
+              </ion-textarea>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Efectos Secundarios</ion-label>
+              <ion-textarea
+                [(ngModel)]="nuevoMedicamento.efectosSecundarios"
+                name="efectosSecundarios"
+                placeholder="Posibles efectos secundarios"
+                rows="2"
+                auto-grow="true">
+              </ion-textarea>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Notas Personales</ion-label>
+              <ion-textarea
+                [(ngModel)]="nuevoMedicamento.notasPersonales"
+                name="notasPersonales"
+                placeholder="Notas adicionales..."
+                rows="2"
+                auto-grow="true">
+              </ion-textarea>
+            </ion-item>
+          </div>
+
+          <!-- Estado -->
+          <div class="form-section">
+            <ion-item>
+              <ion-label>Medicamento Activo</ion-label>
+              <ion-select
+                [(ngModel)]="nuevoMedicamento.activo"
+                name="activo">
+                <ion-select-option [value]="true">Sí</ion-select-option>
+                <ion-select-option [value]="false">No</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="form-actions">
+            <ion-button
+              expand="block"
+              (click)="guardarMedicamento()"
+              color="primary">
+              <ion-icon name="save" slot="start"></ion-icon>
+              {{ editando ? 'Actualizar' : 'Guardar' }} Medicamento
+            </ion-button>
+          </div>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

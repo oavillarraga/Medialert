@@ -1,0 +1,276 @@
+// Estado vacío
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+
+  ion-icon {
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+
+    h2 {
+    color: var(--ion-text-color);
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 600;
+    opacity: 0.7;
+  }
+
+  p {
+    color: var(--ion-text-color);
+    font-size: 16px;
+    opacity: 0.6;
+  }
+}
+
+// Cards de recordatorios
+.recordatorio-card {
+  margin: 16px 16px 0 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  &:last-child {
+    margin-bottom: 100px; // Espacio para el FAB
+  }
+}
+
+.medicamento-nombre {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  margin-bottom: 4px;
+}
+
+.dosis {
+  font-size: 14px;
+  color: var(--ion-text-color);
+  margin: 0;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+// Información del recordatorio
+.recordatorio-info {
+  .info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+
+    ion-icon {
+      margin-right: 12px;
+      font-size: 18px;
+      min-width: 20px;
+    }
+
+        .info-label {
+      font-weight: 600;
+      color: var(--ion-text-color);
+      margin-right: 8px;
+      min-width: 80px;
+    }
+
+    .info-value {
+      color: var(--ion-text-color);
+      opacity: 0.8;
+      flex: 1;
+    }
+  }
+
+  .horarios-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-left: 8px;
+
+    ion-chip {
+      margin: 0;
+      font-weight: 600;
+    }
+  }
+}
+
+// Acciones
+.acciones {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ion-color-light);
+
+  ion-button {
+    flex: 1;
+  }
+}
+
+// Modal
+.modal-content {
+  padding: 20px;
+
+    ion-list {
+    background: transparent;
+
+    ion-item {
+      --background: var(--ion-background-color);
+      --border-radius: 8px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+      ion-label {
+        margin-bottom: 8px;
+      }
+    }
+  }
+}
+
+.modal-buttons {
+  padding: 20px 0;
+
+  ion-button {
+    margin: 0;
+    font-weight: 600;
+    --border-radius: 12px;
+    height: 48px;
+  }
+}
+
+// Horarios en el modal
+.horarios-agregados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+
+  ion-chip {
+    margin: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: scale(0.95);
+      opacity: 0.8;
+    }
+
+    ion-icon {
+      margin-left: 4px;
+    }
+  }
+}
+
+.help-text {
+  font-size: 12px;
+  color: var(--ion-text-color);
+  opacity: 0.6;
+  margin: 0;
+  font-style: italic;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .recordatorio-card {
+    margin: 12px 8px 0 8px;
+  }
+
+  .acciones {
+    flex-direction: column;
+
+    ion-button {
+      flex: none;
+    }
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start !important;
+
+    .info-label {
+      min-width: auto;
+      margin-bottom: 4px;
+    }
+
+    .horarios-container {
+      margin-left: 0;
+      margin-top: 4px;
+    }
+  }
+}
+
+// Estados de los recordatorios
+.recordatorio-card {
+  &.inactivo {
+    opacity: 0.6;
+
+    .medicamento-nombre {
+      color: var(--ion-text-color);
+      opacity: 0.5;
+    }
+  }
+}
+
+// Animaciones
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.recordatorio-card {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+// Mejoras visuales
+ion-fab-button {
+  --box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.3);
+
+  &:hover {
+    --box-shadow: 0 6px 20px rgba(var(--ion-color-primary-rgb), 0.4);
+  }
+}
+
+// Chips mejorados
+ion-chip {
+  --background: var(--ion-color-primary);
+  --color: white;
+  font-weight: 600;
+
+  &[color="secondary"] {
+    --background: var(--ion-color-secondary);
+  }
+}
+
+// Header personalizado
+ion-header ion-toolbar {
+  --background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
+
+  ion-title {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+  }
+
+  ion-buttons[slot="start"] {
+    ion-button {
+      --color: white;
+      --background-hover: rgba(255, 255, 255, 0.1);
+      --border-radius: 8px;
+
+      ion-icon {
+        font-size: 20px;
+      }
+    }
+  }
+}
