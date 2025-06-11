@@ -27,11 +27,15 @@
       font-weight: 600;
     }
 
-    ion-button {
+    .module-button {
       margin-top: 16px;
       --border-radius: 12px;
       height: 48px;
       font-weight: 600;
+
+      &:first-of-type {
+        margin-top: 16px;
+      }
     }
   }
 }

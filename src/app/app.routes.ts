@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadComponent: () => import('./recordatorios/recordatorios.page').then((m) => m.RecordatoriosPage),
   },
   {
+    path: 'tratamientos',
+    loadComponent: () => import('./tratamientos/tratamientos.page').then((m) => m.TratamientosPage),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

@@ -1,0 +1,281 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="medical" style="margin-right: 8px;"></ion-icon>
+      Tratamientos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tratamientos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Barra de búsqueda y filtros -->
+  <div class="filtros-container">
+    <ion-searchbar
+      [(ngModel)]="busqueda"
+      (ionInput)="onBusquedaChanged()"
+      placeholder="Buscar tratamientos..."
+      show-clear-button="focus">
+    </ion-searchbar>
+
+    <ion-item>
+      <ion-label>Categoría:</ion-label>
+      <ion-select
+        [(ngModel)]="filtroCategoria"
+        (ionChange)="onFiltroChanged()"
+        interface="popover">
+        <ion-select-option
+          *ngFor="let categoria of categorias"
+          [value]="categoria.value">
+          {{ categoria.label }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <!-- Segmentos para filtrar por estado -->
+  <ion-segment
+    [(ngModel)]="segmentoSeleccionado"
+    (ionChange)="onSegmentChanged($event)"
+    class="segment-container">
+    <ion-segment-button value="activos">
+      <ion-label>
+        Activos
+        <ion-badge color="success">{{ getTratamientosActivos() }}</ion-badge>
+      </ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="finalizados">
+      <ion-label>
+        Finalizados
+        <ion-badge color="medium">{{ getTratamientosFinalizados() }}</ion-badge>
+      </ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="todos">
+      <ion-label>Todos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Lista de tratamientos -->
+  <div *ngIf="tratamientosFiltrados.length === 0" class="empty-state">
+    <ion-icon name="medical" size="large" color="medium"></ion-icon>
+    <h2>No hay tratamientos</h2>
+    <p *ngIf="segmentoSeleccionado === 'activos'">No tienes tratamientos activos en este momento</p>
+    <p *ngIf="segmentoSeleccionado === 'finalizados'">No hay tratamientos finalizados</p>
+    <p *ngIf="segmentoSeleccionado === 'todos'">No se encontraron tratamientos</p>
+  </div>
+
+  <div *ngIf="tratamientosFiltrados.length > 0" class="tratamientos-list">
+    <ion-card
+      *ngFor="let tratamiento of tratamientosFiltrados"
+      class="tratamiento-card"
+      [class.finalizado]="tratamiento.estado === 'finalizado'"
+      [class.pausado]="tratamiento.estado === 'pausado'">
+
+      <ion-card-header>
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col>
+              <ion-card-title class="tratamiento-nombre">
+                {{ tratamiento.nombre }}
+              </ion-card-title>
+              <p class="tratamiento-descripcion">{{ tratamiento.descripcion }}</p>
+            </ion-col>
+            <ion-col size="auto">
+              <ion-badge [color]="getEstadoColor(tratamiento.estado)">
+                {{ getEstadoTexto(tratamiento.estado) }}
+              </ion-badge>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- Progreso del tratamiento -->
+        <div class="progreso-container" *ngIf="tratamiento.estado !== 'finalizado'">
+          <div class="progreso-info">
+            <span class="progreso-label">Progreso</span>
+            <span class="progreso-porcentaje">{{ tratamiento.progreso }}%</span>
+          </div>
+          <ion-progress-bar
+            [value]="tratamiento.progreso / 100"
+            [color]="tratamiento.progreso > 70 ? 'success' : tratamiento.progreso > 30 ? 'warning' : 'danger'">
+          </ion-progress-bar>
+        </div>
+
+        <!-- Información del tratamiento -->
+        <div class="tratamiento-info">
+          <div class="info-row">
+            <ion-icon name="person" color="primary"></ion-icon>
+            <span class="info-label">Médico:</span>
+            <span class="info-value">{{ tratamiento.medico }}</span>
+          </div>
+
+          <div class="info-row">
+            <ion-icon name="medkit" color="primary"></ion-icon>
+            <span class="info-label">Especialidad:</span>
+            <span class="info-value">{{ tratamiento.especialidad }}</span>
+          </div>
+
+          <div class="info-row">
+            <ion-icon name="calendar" color="primary"></ion-icon>
+            <span class="info-label">Inicio:</span>
+            <span class="info-value">{{ formatearFecha(tratamiento.fechaInicio) }}</span>
+          </div>
+
+          <div class="info-row" *ngIf="tratamiento.fechaFin">
+            <ion-icon name="checkmarkCircle" color="success"></ion-icon>
+            <span class="info-label">Finalizado:</span>
+            <span class="info-value">{{ formatearFecha(tratamiento.fechaFin) }}</span>
+          </div>
+
+          <div class="info-row" *ngIf="tratamiento.proximaCita">
+            <ion-icon name="time" color="warning"></ion-icon>
+            <span class="info-label">Próxima cita:</span>
+            <span class="info-value">{{ formatearFecha(tratamiento.proximaCita) }}</span>
+          </div>
+
+          <div class="info-row">
+            <ion-icon name="ellipse" [color]="getCategoriaColor(tratamiento.categoria)"></ion-icon>
+            <span class="info-label">Categoría:</span>
+            <span class="info-value">{{ getCategoriaTexto(tratamiento.categoria) }}</span>
+          </div>
+
+          <!-- Medicamentos -->
+          <div class="medicamentos-section">
+            <div class="section-title">
+              <ion-icon name="medkit" color="primary"></ion-icon>
+              Medicamentos ({{ tratamiento.medicamentos.length }})
+            </div>
+            <div class="medicamentos-list">
+              <ion-chip
+                *ngFor="let med of tratamiento.medicamentos"
+                color="secondary"
+                class="medicamento-chip">
+                <strong>{{ med.nombre }}</strong> - {{ med.dosis }}
+              </ion-chip>
+            </div>
+          </div>
+
+          <!-- Notas -->
+          <div class="info-row" *ngIf="tratamiento.notas">
+            <ion-icon name="documentText" color="primary"></ion-icon>
+            <span class="info-label">Notas:</span>
+            <span class="info-value">{{ tratamiento.notas }}</span>
+          </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="acciones">
+          <ion-button
+            fill="outline"
+            size="small"
+            (click)="verDetalles(tratamiento)"
+            color="primary">
+            <ion-icon name="eye" slot="start"></ion-icon>
+            Ver Detalles
+          </ion-button>
+          <ion-button
+            fill="outline"
+            size="small"
+            (click)="mostrarAcciones(tratamiento)"
+            color="medium"
+            *ngIf="tratamiento.estado !== 'finalizado'">
+            <ion-icon name="ellipse" slot="start"></ion-icon>
+            Acciones
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Modal de detalles -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="cerrarModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>{{ tratamientoSeleccionado?.nombre }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="modal-content" *ngIf="tratamientoSeleccionado">
+        <!-- Estado y progreso -->
+        <div class="modal-header">
+          <ion-badge [color]="getEstadoColor(tratamientoSeleccionado.estado)" class="estado-badge">
+            {{ getEstadoTexto(tratamientoSeleccionado.estado) }}
+          </ion-badge>
+          <ion-chip [color]="getCategoriaColor(tratamientoSeleccionado.categoria)">
+            {{ getCategoriaTexto(tratamientoSeleccionado.categoria) }}
+          </ion-chip>
+        </div>
+
+        <div class="progreso-container" *ngIf="tratamientoSeleccionado.estado !== 'finalizado'">
+          <h3>Progreso del Tratamiento</h3>
+          <div class="progreso-info">
+            <span class="progreso-porcentaje-grande">{{ tratamientoSeleccionado.progreso }}%</span>
+            <span class="dias-transcurridos">
+              {{ calcularDiasTranscurridos(tratamientoSeleccionado.fechaInicio) }} de {{ tratamientoSeleccionado.duracionEstimada }} días
+            </span>
+          </div>
+          <ion-progress-bar
+            [value]="tratamientoSeleccionado.progreso / 100"
+            [color]="tratamientoSeleccionado.progreso > 70 ? 'success' : tratamientoSeleccionado.progreso > 30 ? 'warning' : 'danger'">
+          </ion-progress-bar>
+        </div>
+
+        <!-- Información detallada -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Información del Tratamiento</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p><strong>Descripción:</strong> {{ tratamientoSeleccionado.descripcion }}</p>
+            <p><strong>Médico:</strong> {{ tratamientoSeleccionado.medico }}</p>
+            <p><strong>Especialidad:</strong> {{ tratamientoSeleccionado.especialidad }}</p>
+            <p><strong>Fecha de inicio:</strong> {{ formatearFecha(tratamientoSeleccionado.fechaInicio) }}</p>
+            <p *ngIf="tratamientoSeleccionado.fechaFin">
+              <strong>Fecha de finalización:</strong> {{ formatearFecha(tratamientoSeleccionado.fechaFin) }}
+            </p>
+            <p *ngIf="tratamientoSeleccionado.proximaCita">
+              <strong>Próxima cita:</strong> {{ formatearFecha(tratamientoSeleccionado.proximaCita) }}
+            </p>
+            <p *ngIf="tratamientoSeleccionado.notas">
+              <strong>Notas:</strong> {{ tratamientoSeleccionado.notas }}
+            </p>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Medicamentos detallados -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Medicamentos Prescritos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item *ngFor="let med of tratamientoSeleccionado.medicamentos">
+              <ion-label>
+                <h3>{{ med.nombre }}</h3>
+                <p><strong>Dosis:</strong> {{ med.dosis }}</p>
+                <p><strong>Frecuencia:</strong> {{ med.frecuencia }}</p>
+                <div class="horarios-detalle">
+                  <strong>Horarios:</strong>
+                  <ion-chip *ngFor="let horario of med.horarios" color="primary">
+                    {{ horario }}
+                  </ion-chip>
+                </div>
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
