@@ -1,37 +1,59 @@
+
+
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-    {
-    path: 'login',
-    loadComponent: () => import('./login/login.page').then((m) => m.LoginPage),
-  },
+  // Al iniciar la app, ve directo a la lista de medicamentos
+  { path: '', redirectTo: 'med-list', pathMatch: 'full' },
+
+  // (Opcional): Ruta de Login, accesible vía /login
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    path: 'login',
+    loadComponent: () =>
+      import('./pages/login/login.page').then(m => m.LoginPage)
   },
+
+  // Lista de medicamentos
+  {
+    path: 'med-list',
+    loadComponent: () =>
+      import('./pages/med-list/med-list.page').then(m => m.MedListPage)
+  },
+
+  // Detalle / creación de medicamento
+  {
+    path: 'med-detail/:id',
+    loadComponent: () =>
+      import('./pages/med-detail/med-detail.page').then(m => m.MedDetailPage)
+  },
+
+  // Otras páginas de tu app
   {
     path: 'recordatorios',
-    loadComponent: () => import('./recordatorios/recordatorios.page').then((m) => m.RecordatoriosPage),
+    loadComponent: () =>
+      import('./pages/recordatorios/recordatorios.page').then(m => m.RecordatoriosPage)
   },
   {
     path: 'tratamientos',
-    loadComponent: () => import('./tratamientos/tratamientos.page').then((m) => m.TratamientosPage),
+    loadComponent: () =>
+      import('./pages/tratamientos/tratamientos.page').then(m => m.TratamientosPage)
   },
   {
     path: 'registro-dosis',
-    loadComponent: () => import('./registro-dosis/registro-dosis.page').then((m) => m.RegistroDosisPage),
+    loadComponent: () =>
+      import('./pages/registro-dosis/registro-dosis.page').then(m => m.RegistroDosisPage)
   },
   {
     path: 'medicamentos',
-    loadComponent: () => import('./medicamentos/medicamentos.page').then((m) => m.MedicamentosPage),
+    loadComponent: () =>
+      import('./pages/medicamentos/medicamentos.page').then(m => m.MedicamentosPage)
   },
   {
     path: 'informes',
-    loadComponent: () => import('./informes/informes.page').then((m) => m.InformesPage),
+    loadComponent: () =>
+      import('./pages/informes/informes.page').then(m => m.InformesPage)
   },
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
+
+  // Ruta comodín: si entran a algo desconocido, redirige a la lista
+  { path: '**', redirectTo: 'med-list', pathMatch: 'full' }
 ];
